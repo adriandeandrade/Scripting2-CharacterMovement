@@ -5,28 +5,29 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
+    [SerializeField] private float rotateSpeed;
     [SerializeField] private float jumpAmount;
     [SerializeField] private float gravity;
 
     Vector3 movement;
-    bool canDoubleJump;
-    int doubleJumpAmount = 2;
-    int doubleJumpCount;
+    Vector3 moveDirection;
+
+    float inputX;
+    float inputZ;
 
     CharacterController characterController;
+    Camera cam;
 
     private void Awake()
     {
         characterController = GetComponent<CharacterController>();
-    }
-
-    private void Start()
-    {
-        
+        cam = Camera.main;
     }
 
     private void Update()
     {
+        RotateToFaceCameraForward();
+
         Movement();
     }
 
@@ -34,10 +35,11 @@ public class PlayerController : MonoBehaviour
     {
         if (characterController.isGrounded)
         {
+            inputX = Input.GetAxis("Horizontal");
+            inputZ = Input.GetAxis("Vertical");
 
-            Vector3 movementInput = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+            Vector3 movementInput = new Vector3(inputX, 0, inputZ);
             movement = transform.TransformDirection(movementInput);
-            movement *= moveSpeed;
 
             if (Input.GetButton("Jump"))
             {
@@ -45,17 +47,16 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        movement.y = movement.y - (gravity * Time.deltaTime);
+        movement.y = movement.y - (gravity * Time.deltaTime); // Apply gravity each frame.
 
-        characterController.Move(movement * Time.deltaTime);
+        characterController.Move(movement * moveSpeed * Time.deltaTime); // Move player using character controller
     }
 
-    private void OnControllerColliderHit(ControllerColliderHit other)
+    private void RotateToFaceCameraForward()
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Ground") && !characterController.isGrounded)
-        {
-            Debug.Log("Hit ground");
-            canDoubleJump = true;
-        }
+        Vector3 cameraForward = cam.transform.forward;
+        cameraForward.y = 0f;
+        moveDirection = cameraForward.normalized;
+        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), rotateSpeed);
     }
 }

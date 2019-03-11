@@ -7,7 +7,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float cameraMoveSpeed = 120f;
     [SerializeField] private float clampAngle = 80f;
     [SerializeField] private float sensitivity = 150f;
-    [SerializeField] private float fovLerpSpeed = 0.5f;
     [SerializeField] private float followSpeed = 0.5f;
     [SerializeField] private bool doLerpTarget;
     [SerializeField] private GameObject followTarget;
@@ -15,9 +14,6 @@ public class CameraController : MonoBehaviour
 
     float rotY;
     float rotX;
-    float newFov;
-
-    bool isZoomed;
 
     Camera cam;
 
@@ -28,12 +24,9 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        isZoomed = false;
-
         Vector3 rot = transform.localRotation.eulerAngles;
         rotY = rot.y;
         rotX = rot.x;
-        newFov = cam.fieldOfView;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -44,30 +37,26 @@ public class CameraController : MonoBehaviour
         float inputX = Input.GetAxis("Mouse X"); // Get input axises
         float inputY = Input.GetAxis("Mouse Y");
 
-        rotY += inputX * sensitivity * Time.deltaTime; // Increment / decrement rotation values on x and y axis
+        rotY += inputX * sensitivity * Time.deltaTime;
         rotX += -inputY * sensitivity * Time.deltaTime;
 
-        rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle);
+        rotX = Mathf.Clamp(rotX, -clampAngle, clampAngle); // Clamp up and down rotation.
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0f);
         transform.rotation = localRotation;
-
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newFov, Time.deltaTime / fovLerpSpeed);
     }
 
     private void LateUpdate()
     {
-        Transform target = followTarget.transform;
-
-        if (!isZoomed && doLerpTarget)
+        if (doLerpTarget)
         {
             float step = followSpeed * Time.deltaTime;
-            transform.position = Vector3.Lerp(transform.position, target.position + offset, step);
+            transform.position = Vector3.Lerp(transform.position, followTarget.transform.position + offset, step);
         }
         else
         {
             float step = cameraMoveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, target.position + offset, step);
+            transform.position = Vector3.MoveTowards(transform.position, followTarget.transform.position + offset, step);
         }
     }
 }
