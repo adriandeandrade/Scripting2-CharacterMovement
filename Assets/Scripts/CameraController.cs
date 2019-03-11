@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField] private float cameraMoveSpeed = 120f;
     [SerializeField] private float clampAngle = 80f;
+    [SerializeField] private float fovLerpSpeed = 0.05f;
     [SerializeField] private float sensitivity = 150f;
     [SerializeField] private float followSpeed = 0.5f;
     [SerializeField] private bool doLerpTarget;
@@ -14,6 +15,8 @@ public class CameraController : MonoBehaviour
 
     float rotY;
     float rotX;
+
+    float newFov;
 
     Camera cam;
 
@@ -44,6 +47,8 @@ public class CameraController : MonoBehaviour
 
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0f);
         transform.rotation = localRotation;
+
+        //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newFov, Time.deltaTime / fovLerpSpeed);
     }
 
     private void LateUpdate()

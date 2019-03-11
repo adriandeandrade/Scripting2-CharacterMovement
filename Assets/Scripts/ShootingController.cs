@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class ShootingController : MonoBehaviour
 {
+    [SerializeField] private float cooldown;
     [SerializeField] private KeyCode shootModeToggleKey;
 
-    Shoulder shoulder;
-
     bool isInShootMode;
+    float nextShotTime;
+
+    Shoulder shoulder;
+   
     public bool IsInShootMode { get { return isInShootMode; } set { isInShootMode = value; } }
 
     private void Start()
