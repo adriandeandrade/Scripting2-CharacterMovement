@@ -814,6 +814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cooldown: 0
   shootModeToggleKey: 324
+  shootKey: 323
 --- !u!1001 &2364509849533493047
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -920,6 +921,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039314535137157095, guid: 480f3d6b9f9f66c47aa232e1fec6a23e,
+        type: 3}
+      propertyPath: shootKey
+      value: 323
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039314535137157095, guid: 480f3d6b9f9f66c47aa232e1fec6a23e,
+        type: 3}
+      propertyPath: cooldown
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5039314535137157095, guid: 480f3d6b9f9f66c47aa232e1fec6a23e,
+        type: 3}
+      propertyPath: bulletsInMag
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 480f3d6b9f9f66c47aa232e1fec6a23e, type: 3}

@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class ShootingController : MonoBehaviour
 {
-    [SerializeField] private float cooldown;
     [SerializeField] private KeyCode shootModeToggleKey;
+    [SerializeField] private KeyCode shootKey;
 
     bool isInShootMode;
-    float nextShotTime;
 
     Shoulder shoulder;
+    Gun gun;
    
     public bool IsInShootMode { get { return isInShootMode; } set { isInShootMode = value; } }
 
@@ -18,6 +18,7 @@ public class ShootingController : MonoBehaviour
     {
         isInShootMode = false;
         shoulder = GetComponentInChildren<Shoulder>();
+        gun = GetComponentInChildren<Gun>();
     }
 
     private void Update()
@@ -25,6 +26,11 @@ public class ShootingController : MonoBehaviour
         if (Input.GetKeyDown(shootModeToggleKey))
         {
             ToggleShootMode();
+        }
+
+        if (Input.GetKeyDown(shootKey))
+        {
+            gun.Shoot();
         }
     }
 
