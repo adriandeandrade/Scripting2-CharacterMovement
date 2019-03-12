@@ -9,16 +9,24 @@ public class ShootingController : MonoBehaviour
 
     bool isInShootMode;
 
-    Shoulder shoulder;
     Gun gun;
-   
+    Animator anim;
+    CameraController cameraController;
+    Crosshair crosshair;
+
     public bool IsInShootMode { get { return isInShootMode; } set { isInShootMode = value; } }
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+        cameraController = FindObjectOfType<CameraController>();
+        crosshair = FindObjectOfType<Crosshair>();
+        gun = GetComponentInChildren<Gun>();
+    }
 
     private void Start()
     {
         isInShootMode = false;
-        shoulder = GetComponentInChildren<Shoulder>();
-        gun = GetComponentInChildren<Gun>();
     }
 
     private void Update()
@@ -28,7 +36,7 @@ public class ShootingController : MonoBehaviour
             ToggleShootMode();
         }
 
-        if (Input.GetKeyDown(shootKey))
+        if (Input.GetKeyDown(shootKey) && isInShootMode)
         {
             gun.Shoot();
         }
@@ -37,6 +45,22 @@ public class ShootingController : MonoBehaviour
     private void ToggleShootMode()
     {
         isInShootMode = !isInShootMode;
-        shoulder.StartShoulderAnimation(isInShootMode);
+        StartShoulderAnimation(isInShootMode);
+    }
+
+    private void StartShoulderAnimation(bool isAiming)
+    {
+        if (isAiming)
+        {
+            anim.SetTrigger("aim");
+            crosshair.FadeOrFadeOutCrosshair(isAiming);
+            cameraController.NewFov = 40f;
+        }
+        else
+        {
+            anim.SetTrigger("rest");
+            crosshair.FadeOrFadeOutCrosshair(isAiming);
+            cameraController.NewFov = 60f;
+        }
     }
 }

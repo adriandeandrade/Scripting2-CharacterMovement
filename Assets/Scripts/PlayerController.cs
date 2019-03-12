@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed;
     [SerializeField] private float rotateSpeed;
     [SerializeField] private float jumpAmount;
+    [SerializeField] private int maxJumps;
     [SerializeField] private float gravity;
 
     Vector3 movement;
@@ -14,6 +15,8 @@ public class PlayerController : MonoBehaviour
 
     float inputX;
     float inputZ;
+
+    int currentJumps;
 
     CharacterController characterController;
     Camera cam;
@@ -41,15 +44,24 @@ public class PlayerController : MonoBehaviour
             Vector3 movementInput = new Vector3(inputX, 0, inputZ);
             movement = transform.TransformDirection(movementInput);
 
-            if (Input.GetButton("Jump"))
+            if (Input.GetButtonDown("Jump"))
             {
+                currentJumps++;
                 movement.y = jumpAmount;
             }
         }
 
-        movement.y = movement.y - (gravity * Time.deltaTime); // Apply gravity each frame.
+        if(!characterController.isGrounded && currentJumps <= maxJumps)
+        {
+            if(Input.GetButtonDown("Jump"))
+            {
+                currentJumps++;
+                movement.y = jumpAmount;
+            }
+        }
 
-        characterController.Move(movement * moveSpeed * Time.deltaTime); // Move player using character controller
+        movement.y = movement.y - (gravity * Time.deltaTime); 
+        characterController.Move(movement * moveSpeed * Time.deltaTime);
     }
 
     private void RotateToFaceCameraForward()
@@ -58,5 +70,13 @@ public class PlayerController : MonoBehaviour
         cameraForward.y = 0f;
         moveDirection = cameraForward.normalized;
         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(moveDirection), rotateSpeed);
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if(hit.collider.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            currentJumps = 0;
+        }
     }
 }

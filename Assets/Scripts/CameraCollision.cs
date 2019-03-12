@@ -13,17 +13,14 @@ public class CameraCollision : MonoBehaviour
     public Vector3 dollyDirAdjusted;
     public float distance;
 
-    // Use this for initialization
     void Awake()
     {
         dollyDir = transform.localPosition.normalized;
         distance = transform.localPosition.magnitude;
     }
 
-    // Update is called once per frame
     void Update()
     {
-
         Vector3 desiredCameraPos = transform.parent.TransformPoint(dollyDir * maxDistance);
         RaycastHit hit;
 

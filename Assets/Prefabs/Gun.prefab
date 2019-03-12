@@ -23,13 +23,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 144155526}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.117, z: 0.619}
+  m_LocalRotation: {x: 0.70710707, y: -0, z: -0, w: 0.70710653}
+  m_LocalPosition: {x: -0, y: -0.277, z: 0.261}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2364509849743406421}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 0}
 --- !u!1 &2364509849743406422
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +56,7 @@ Transform:
   m_GameObject: {fileID: 2364509849743406422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.58387756, z: -0.2592824}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4.705882, y: 1.25, z: 5}
   m_Children:
   - {fileID: 2364509850049930421}
   - {fileID: 144155527}
@@ -75,6 +75,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038a0165592413943a1af6cd52f175c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cooldown: 0.1
+  bulletsInMag: 5
+  bulletSpeed: 15
+  bulletDamage: 1
+  bulletForce: 30
+  reloadTime: 0.2
+  shootKey: 323
+  projectilePrefab: {fileID: 6354652548388258000, guid: a52f5096ca20d4849858703ca7c247f1,
+    type: 3}
+  shootPoint: {fileID: 144155527}
+  shoulder: {fileID: 0}
+  shoulderAnimator: {fileID: 0}
 --- !u!1 &2364509850049930422
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,7 +110,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2364509850049930422}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.70710677, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0.11812246, z: 0.2592824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -106,7 +118,7 @@ Transform:
   - {fileID: 2364509850304101295}
   m_Father: {fileID: 2364509849743406421}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90.00001, y: 0, z: 0}
 --- !u!1 &2364509850304101280
 GameObject:
   m_ObjectHideFlags: 0

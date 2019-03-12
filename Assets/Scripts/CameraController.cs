@@ -20,9 +20,12 @@ public class CameraController : MonoBehaviour
 
     Camera cam;
 
+    public float NewFov { get { return newFov; } set { newFov = value; } }
+
     private void Awake()
     {
         cam = Camera.main;
+        newFov = cam.fieldOfView;
     }
 
     private void Start()
@@ -48,7 +51,7 @@ public class CameraController : MonoBehaviour
         Quaternion localRotation = Quaternion.Euler(rotX, rotY, 0f);
         transform.rotation = localRotation;
 
-        //cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newFov, Time.deltaTime / fovLerpSpeed);
+        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, newFov, Time.deltaTime / fovLerpSpeed);
     }
 
     private void LateUpdate()
