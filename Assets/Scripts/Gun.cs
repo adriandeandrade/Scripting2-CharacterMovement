@@ -5,14 +5,13 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     [Header("Gun Properties")]
-    [SerializeField] private float cooldown;
-    [SerializeField] private float reloadTime;
-    [SerializeField] private float bulletsInMag;
-    [SerializeField] private float bulletSpeed;
-    [SerializeField] private float bulletDamage;
-    [SerializeField] private float bulletForce;
-    [SerializeField] private KeyCode shootKey;
-    [SerializeField] private Animator shoulderAnimator;
+    [SerializeField] private float cooldown; // Cooldown between each shot.
+    [SerializeField] private float reloadTime; // Time it takes to reload.
+    [SerializeField] private float bulletsInMag; // Amount of bullets in one magazine.
+    [SerializeField] private float bulletDamage; // How much damage the bullets do.
+    [SerializeField] private float bulletForce; // How much force the bullet holds.
+    [SerializeField] private KeyCode shootKey; // Shooting button.
+    [SerializeField] private Animator anim; // Animator which does shoulder movement. (Recoil, Rest, Aim)
 
     float nextShotTime;
     float remainingBulletsInMag;
@@ -26,6 +25,7 @@ public class Gun : MonoBehaviour
     {
         cam = Camera.main;
         shootingController = GetComponentInParent<ShootingController>();
+        anim = GetComponentInParent<Animator>();
     }
 
     private void Start()
@@ -47,7 +47,7 @@ public class Gun : MonoBehaviour
     {
         if (!isReloading && Time.time > nextShotTime && remainingBulletsInMag > 0)
         {
-            shoulderAnimator.SetTrigger("shoot");
+            anim.SetTrigger("shoot");
             remainingBulletsInMag--;
             nextShotTime = Time.time + cooldown;
 
